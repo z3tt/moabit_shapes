@@ -34,3 +34,5 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+data/Gebäude__Berlin/Gebäude__Berlin.dbf
+data/Gebäude__Berlin/Gebäude__Berlin.shp
