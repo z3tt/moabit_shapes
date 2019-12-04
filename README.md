@@ -1,11 +1,14 @@
-## 🗺  Shapefiles for Moabit (Berlin 21)
+# 🗺  Shapefiles for Moabit (Berlin 21)
 
-Contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin:
+![./plots/Moabit_By_Levels.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Moabit_By_Levels.png)
+
+### Shapefiles included
+This repository contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin:
 
 * district border: `sf_moabit_district.shp`
 * 4056 buildings: `sf_moabit_build.shp`
   - `OBJECTID`: identification number
-  - `Gebaeudefu`: building function number 
+  - `Gebaeudefu`: building function number
   - `Gebaeude_1`: building type (in German)
   - `AnzahlDerO`: number of overground levels
   - `AnzahlDerU`: number of underground levels
@@ -15,7 +18,7 @@ Contains the following shapefiles cropped for my home district [Moabit](https://
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
   - `name`: name of the feature
-  - `green`: green space classification, boolean variable 
+  - `green`: green space classification, boolean variable
     * `TRUE` if fclass one of "park", "recreation_ground", "cemetery", "scrub", "forest", "heath", "allotments" or "grass"
     * `FALSE` otherwise
 * road network: `sf_moabit_roads.shp`
