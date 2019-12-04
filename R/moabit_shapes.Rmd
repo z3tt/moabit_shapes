@@ -1,0 +1,166 @@
+---
+title: "Moabit Shapefiles"
+author: "Cedric Scherer"
+date: "27th of October 2019"
+output:
+  html_document:
+  theme: paper
+highlight: kate
+editor_options:
+  chunk_output_type: console
+---
+  
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F)
+```
+
+## Setup
+
+```{r prep, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(sf)
+
+theme_set(theme_minimal())
+```
+
+## Data
+
+```{r data}
+## Prognoseräume Berlin -> shape Moabit
+## source: https://data.technologiestiftung-berlin.de/dataset/lor_prognoseraeume/en
+sf_moabit <- 
+  sf::read_sf(dsn = here::here("data", "lor_prognoseraeume", "lor_prognoseraeume.shp"), 
+              layer = "lor_prognoseraeume") %>% 
+  filter(spatial_al == "Moabit")
+
+## Berlin Buildings
+## source: https://opendata-esri-de.opendata.arcgis.com/datasets/ecf431fd8c394ee1b2fd7d54563e7b81_0
+sf_build <-
+  sf::read_sf(dsn = here::here("data", "Gebäude__Berlin", "Gebäude__Berlin.shp"), 
+              layer = "Gebäude__Berlin") %>%
+  st_intersection(sf_moabit)
+  
+## additional shapes: landuse, roads, railways, water bodies
+## source: https://download.geofabrik.de/europe/germany/berlin.html
+sf_landuse <-
+  sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_landuse_a_free_1.shp"), 
+              layer = "gis_osm_landuse_a_free_1") %>% 
+  st_intersection(sf_moabit) %>% 
+  mutate(green = if_else(fclass %in% c("park", "recreation_ground", "cemetery", 
+                                       "scrub", "forest", "heath", "allotments", 
+                                       "grass"), TRUE, FALSE))
+
+sf_roads <-
+  sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_roads_free_1.shp"), 
+              layer = "gis_osm_roads_free_1") %>% 
+  st_intersection(sf_moabit) %>% 
+  filter(!fclass %in% c("steps", "bridleway", "pedestrian", "cycleway")) %>% 
+  mutate(size = ifelse(fclass %in% c("path", "footway"), "0.1", "0.2"))
+  
+sf_rails <-
+  sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_railways_free_1.shp"), 
+              layer = "gis_osm_railways_free_1") %>% 
+  st_intersection(sf_moabit)
+
+sf_water <- 
+  sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_water_a_free_1.shp"), 
+              layer = "gis_osm_water_a_free_1") %>% 
+  st_intersection(sf_moabit)
+```
+
+## Write Shapefiles
+
+```{r write-shapefiles}
+st_write(sf_moabit, dsn = here::here("output", "sf_moabit_district.shp"), 
+         layer = "sf_moabit_district.shp", driver = "ESRI Shapefile")
+
+st_write(sf_build, dsn = here::here("output", "sf_moabit_build.shp"), 
+         layer = "sf_moabit_build.shp", driver = "ESRI Shapefile")
+
+st_write(sf_landuse, dsn = here::here("output", "sf_moabit_landuse.shp"), 
+         layer = "sf_moabit_landuse.shp", driver = "ESRI Shapefile")
+
+st_write(sf_rails, dsn = here::here("output", "sf_moabit_rails.shp"), 
+         layer = "sf_moabit_rails.shp", driver = "ESRI Shapefile")
+
+st_write(sf_roads, dsn = here::here("output", "sf_moabit_roads.shp"), 
+         layer = "sf_moabit_roads.shp", driver = "ESRI Shapefile")
+
+st_write(sf_roads, dsn = here::here("output", "sf_moabit_water.shp"), 
+         layer = "sf_moabit_water.shp", driver = "ESRI Shapefile")
+```
+
+## Example Map
+
+```{r map, fig.width = 12, fig.height = 11.82}
+(moabit <- 
+  sf_build %>% 
+  mutate(levels = if_else(AnzahlDerO > 7, "7", as.character(AnzahlDerO))) %>% 
+  ggplot() +
+    geom_sf(data = sf_water,
+             color = "#182a33",
+             fill = "#182a33") +
+    geom_sf(data = sf_landuse %>% 
+            filter(green == T),
+            color = NA,
+            fill = "#10211b") +
+    geom_sf(data = sf_rails,
+            color = "grey15",
+            size = 0.25) +
+    geom_sf(data = sf_roads,
+            aes(size = size),
+            color = "grey25") +
+    geom_sf(aes(fill = levels), 
+            color = "black",
+            lwd = 0.005, 
+            show.legend = "point") + 
+    scale_fill_viridis_d(name = "Above Ground Building Levels",
+                         labels = c(as.character(1:6), "\u22657")) +
+    scale_size_manual(values = c(0.125, 0.3), guide = F) +
+    scale_x_continuous(expand = c(0.001, 0.001)) +
+    scale_y_continuous(expand = c(0.001, 0.001)) +
+    guides(fill = guide_legend(title.position = "top", 
+                               title.hjust = 0.5, nrow = 1,
+                               label.position = "right",
+                               override.aes = list(size = 8, shape = 21))) +
+    labs(title = "Moabit – Berlin 21",
+         caption = "Visualization by Cédric Scherer  •  Data by Geoportal Berlin & OpenStreetMap") +
+    theme(plot.background = element_rect(color = "grey30", 
+                                         fill = "black",
+                                         size = 30),
+          plot.margin = margin(50, 75, 50, 75),
+          axis.text = element_text(color = "grey30", 
+                                   size = 9),
+          axis.text.y = element_text(angle = 90),
+          panel.grid.major = element_blank(),
+          plot.title = element_text(color = "grey60",
+                                    size = 50,
+                                    face = "bold",
+                                    hjust = 0.5,
+                                    margin = margin(t = 18, b = 18)),
+          plot.caption = element_text(color = "grey30",
+                                      size = 12,
+                                      hjust = 0.5,
+                                      margin = margin(t = 18, b = 12)),
+          legend.position = "bottom",
+          legend.title = element_text(color = "grey45",
+                                      size = 15,
+                                      face = "bold"),
+          legend.text = element_text(color = "grey45",
+                                     size = 12),
+          legend.box.margin = margin(0.5, 0, 0, 0, "cm"), 
+          legend.box.spacing = unit(0.2, "cm"), 
+          legend.key.size = unit(1.4, "lines")))
+
+ggsave(here::here("plots", "Moabit_By_Levels.pdf"), plot = moabit,
+       width = 12, height = 11.82, device = cairo_pdf)
+```
+
+***
+
+## Session Info
+
+```{r session-info}
+sessionInfo()
+```
+
