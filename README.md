@@ -5,9 +5,9 @@ This repository contains the following shapefiles cropped for my home district [
 
 ![./plots/Shapes_Overview.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Shapes_Overview.png)
 
-* District border: `sf_moabit_district.shp`  
+* `sf_moabit_district.shp`: District border of Moabit
 
-* 4056 buildings: `sf_moabit_build.shp`
+* `sf_moabit_build.shp`: 4056 buildings
   - `OBJECTID`: identification number
   - `Gebaeudefu`: building function number
   - `Gebaeude_1`: building type (in German)
@@ -15,7 +15,7 @@ This repository contains the following shapefiles cropped for my home district [
   - `AnzahlDerU`: number of below ground levels
   - `Name`: buidling name (in German)  
 
-* Landuse classification: `sf_moabit_landuse.shp`
+* `sf_moabit_landuse.shp`: Landuse classification
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
@@ -24,7 +24,7 @@ This repository contains the following shapefiles cropped for my home district [
     * `TRUE` if fclass one of "park", "recreation_ground", "cemetery", "scrub", "forest", "heath", "allotments" or "grass"
     * `FALSE` otherwise
 
-* Road network: `sf_moabit_roads.shp`
+* `sf_moabit_roads.shp`: Road network
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
@@ -37,13 +37,13 @@ This repository contains the following shapefiles cropped for my home district [
   - `stroke`: `0.1` in case of "path" and "footway", `0.2` otherwise
   - `layer`: OSM layer  
 
-* Railways: `sf_moabit_rails.shp`
+* `sf_moabit_rails.shp`: Railway tracks
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
   - `name`: name of the feature  
 
-* Water bodies: `sf_moabit_water.shp`
+* `sf_moabit_water.shp`: Water bodies
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
