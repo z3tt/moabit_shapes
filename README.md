@@ -5,14 +5,14 @@
 ### Shapefiles Included
 This repository contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin:
 
-* District border: `sf_moabit_district.shp`
+* District border: `sf_moabit_district.shp`<br>
 * 4056 buildings: `sf_moabit_build.shp`
   - `OBJECTID`: identification number
   - `Gebaeudefu`: building function number
   - `Gebaeude_1`: building type (in German)
   - `AnzahlDerO`: number of above ground levels
   - `AnzahlDerU`: number of below ground levels
-  - `Name`: buidling name (in German)
+  - `Name`: buidling name (in German)<br>
 * Landuse classification: `sf_moabit_landuse.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
@@ -20,7 +20,7 @@ This repository contains the following shapefiles cropped for my home district [
   - `name`: name of the feature
   - `green`: green space classification, boolean variable
     * `TRUE` if fclass one of "park", "recreation_ground", "cemetery", "scrub", "forest", "heath", "allotments" or "grass"
-    * `FALSE` otherwise
+    * `FALSE` otherwise<br>
 * Road network: `sf_moabit_roads.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
@@ -32,12 +32,12 @@ This repository contains the following shapefiles cropped for my home district [
   - `bridge`: boolean variable, `T` if feature is a bridge, `F` otherwise
   - `tunnel`: boolean variable, `T` if feature is a tunnel, `F` otherwise
   - `stroke`: `0.1` in case of "path" and "footway", `0.2` otherwise
-  - `layer`: OSM layer
+  - `layer`: OSM layer<br>
 * Railways: `sf_moabit_rails.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
-  - `name`: name of the feature
+  - `name`: name of the feature<br>
 * Water bodies: `sf_moabit_water.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
