@@ -19,6 +19,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = F)
 ```{r prep, message=FALSE, warning=FALSE}
 library(tidyverse)
 library(sf)
+library(patchwork)
 
 theme_set(theme_minimal())
 ```
@@ -58,7 +59,8 @@ sf_roads <-
   filter(!fclass %in% c("steps", "bridleway", "pedestrian", "cycleway")) %>% 
   mutate(
     oneway = if_else(oneway == "B", "T", "F"),
-    stroke = if_else(fclass %in% c("path", "footway"), 0.1, 0.2)
+    stroke = if_else(fclass %in% c("path", "footway"), 0.1, 0.2),
+    stroke = factor(stroke, levels = c("0.1", "0.2"))
   ) %>% 
   dplyr::select(osm_id, code, fclass, name, ref, maxspeed, oneway, bridge, tunnel, stroke, layer)
   
@@ -97,6 +99,26 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
          layer = "sf_moabit_water.shp", driver = "ESRI Shapefile")
 ```
 
+## Overview shapes
+
+```{r facet-shapes, fig.width = 12, fig.height = 14}
+theme_update(plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(t = 12, b = 3)),
+             axis.text = element_text(size = 8, color = "grey50"),
+             panel.grid.major = element_line(size = 0.1, color = "grey90"))
+
+d <- ggplot(sf_moabit) + geom_sf() + ggtitle("sf_moabit_district.shp")
+b <- ggplot(sf_build) + geom_sf(aes(fill = AnzahlDerO), color = NA) + ggtitle("sf_moabit_build.shp")
+l <- ggplot(sf_landuse) + geom_sf(aes(fill = green)) + ggtitle("sf_moabit_landuse.shp")
+s <- ggplot(sf_roads) + geom_sf(aes(color = stroke)) + ggtitle("sf_moabit_roads.shp")
+r <- ggplot(sf_rails) + geom_sf(aes(color = fclass)) + ggtitle("sf_moabit_rails.shp")
+w <- ggplot(sf_water) + geom_sf() + ggtitle("sf_moabit_water.shp")
+
+facet <- d + b + l + s + r + w + plot_layout(nrow = 3)
+
+ggsave(here::here("plots", "Shapes_Overview.pdf"), plot = facet,
+       width = 12, height = 11.2, device = cairo_pdf)
+```
+
 ## Example Map
 
 ```{r map, fig.width = 12, fig.height = 11.82}
@@ -115,7 +137,7 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
             color = "grey15",
             size = 0.25) +
     geom_sf(data = sf_roads,
-            aes(size = as.character(stroke)),
+            aes(size = stroke),
             color = "grey25") +
     geom_sf(aes(fill = levels), 
             color = "black",
