@@ -48,7 +48,7 @@ sf_landuse <-
   st_intersection(sf_moabit) %>% 
   mutate(green = if_else(fclass %in% c("park", "recreation_ground", "cemetery", 
                                        "scrub", "forest", "heath", "allotments", 
-                                       "grass"), TRUE, FALSE)) %>% 
+                                       "grass"), "T", "F")) %>% 
   dplyr::select(osm_id, code, fclass, name, green)
 
 sf_roads <-
@@ -57,8 +57,8 @@ sf_roads <-
   st_intersection(sf_moabit) %>% 
   filter(!fclass %in% c("steps", "bridleway", "pedestrian", "cycleway")) %>% 
   mutate(
-    oneway = if_else(oneway == "B", "T"),
-    stroke = ifelse(fclass %in% c("path", "footway"), 0.1, 0.2)
+    oneway = if_else(oneway == "B", "T", "F"),
+    stroke = if_else(fclass %in% c("path", "footway"), 0.1, 0.2)
   ) %>% 
   dplyr::select(osm_id, code, fclass, name, ref, maxspeed, oneway, bridge, tunnel, stroke, layer)
   
@@ -93,7 +93,7 @@ st_write(sf_roads, dsn = here::here("output", "sf_moabit_roads.shp"),
 st_write(sf_rails, dsn = here::here("output", "sf_moabit_rails.shp"), 
          layer = "sf_moabit_rails.shp", driver = "ESRI Shapefile")
 
-st_write(sf_roads, dsn = here::here("output", "sf_moabit_water.shp"), 
+st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"), 
          layer = "sf_moabit_water.shp", driver = "ESRI Shapefile")
 ```
 
@@ -115,7 +115,7 @@ st_write(sf_roads, dsn = here::here("output", "sf_moabit_water.shp"),
             color = "grey15",
             size = 0.25) +
     geom_sf(data = sf_roads,
-            aes(size = stroke),
+            aes(size = as.character(stroke)),
             color = "grey25") +
     geom_sf(aes(fill = levels), 
             color = "black",
