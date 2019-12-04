@@ -48,24 +48,31 @@ sf_landuse <-
   st_intersection(sf_moabit) %>% 
   mutate(green = if_else(fclass %in% c("park", "recreation_ground", "cemetery", 
                                        "scrub", "forest", "heath", "allotments", 
-                                       "grass"), TRUE, FALSE))
+                                       "grass"), TRUE, FALSE)) %>% 
+  dplyr::select(osm_id, code, fclass, name, green)
 
 sf_roads <-
   sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_roads_free_1.shp"), 
               layer = "gis_osm_roads_free_1") %>% 
   st_intersection(sf_moabit) %>% 
   filter(!fclass %in% c("steps", "bridleway", "pedestrian", "cycleway")) %>% 
-  mutate(size = ifelse(fclass %in% c("path", "footway"), "0.1", "0.2"))
+  mutate(
+    oneway = if_else(oneway == "B", "T"),
+    stroke = ifelse(fclass %in% c("path", "footway"), 0.1, 0.2)
+  ) %>% 
+  dplyr::select(osm_id, code, fclass, name, ref, maxspeed, oneway, bridge, tunnel, stroke, layer)
   
 sf_rails <-
   sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_railways_free_1.shp"), 
               layer = "gis_osm_railways_free_1") %>% 
-  st_intersection(sf_moabit)
+  st_intersection(sf_moabit) %>% 
+  dplyr::select(osm_id, code, fclass, name)
 
 sf_water <- 
   sf::read_sf(dsn = here::here("data", "berlin-latest-free.shp", "gis_osm_water_a_free_1.shp"), 
               layer = "gis_osm_water_a_free_1") %>% 
-  st_intersection(sf_moabit)
+  st_intersection(sf_moabit) %>% 
+  dplyr::select(osm_id, code, fclass, name)
 ```
 
 ## Write Shapefiles
@@ -80,11 +87,11 @@ st_write(sf_build, dsn = here::here("output", "sf_moabit_build.shp"),
 st_write(sf_landuse, dsn = here::here("output", "sf_moabit_landuse.shp"), 
          layer = "sf_moabit_landuse.shp", driver = "ESRI Shapefile")
 
-st_write(sf_rails, dsn = here::here("output", "sf_moabit_rails.shp"), 
-         layer = "sf_moabit_rails.shp", driver = "ESRI Shapefile")
-
 st_write(sf_roads, dsn = here::here("output", "sf_moabit_roads.shp"), 
          layer = "sf_moabit_roads.shp", driver = "ESRI Shapefile")
+
+st_write(sf_rails, dsn = here::here("output", "sf_moabit_rails.shp"), 
+         layer = "sf_moabit_rails.shp", driver = "ESRI Shapefile")
 
 st_write(sf_roads, dsn = here::here("output", "sf_moabit_water.shp"), 
          layer = "sf_moabit_water.shp", driver = "ESRI Shapefile")
@@ -108,7 +115,7 @@ st_write(sf_roads, dsn = here::here("output", "sf_moabit_water.shp"),
             color = "grey15",
             size = 0.25) +
     geom_sf(data = sf_roads,
-            aes(size = size),
+            aes(size = stroke),
             color = "grey25") +
     geom_sf(aes(fill = levels), 
             color = "black",
