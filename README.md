@@ -10,8 +10,8 @@ This repository contains the following shapefiles cropped for my home district [
   - `OBJECTID`: identification number
   - `Gebaeudefu`: building function number
   - `Gebaeude_1`: building type (in German)
-  - `AnzahlDerO`: number of overground levels
-  - `AnzahlDerU`: number of underground levels
+  - `AnzahlDerO`: number of above ground levels
+  - `AnzahlDerU`: number of below ground levels
   - `Name`: buidling name (in German)
 * landuse classification: `sf_moabit_landuse.shp`
   - `osm_id`: OSM identification number
