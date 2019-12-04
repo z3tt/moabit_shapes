@@ -80,23 +80,23 @@ sf_water <-
 ## Write Shapefiles
 
 ```{r write-shapefiles}
-st_write(sf_moabit, dsn = here::here("output", "sf_moabit_district.shp"), 
-         layer = "sf_moabit_district.shp", driver = "ESRI Shapefile")
+st_write(sf_moabit, dsn = here::here("shp", "moabit_district.shp"), 
+         layer = "moabit_district.shp", driver = "ESRI Shapefile")
 
-st_write(sf_build, dsn = here::here("output", "sf_moabit_build.shp"), 
-         layer = "sf_moabit_build.shp", driver = "ESRI Shapefile")
+st_write(sf_build, dsn = here::here("shp", "moabit_build.shp"), 
+         layer = "moabit_build.shp", driver = "ESRI Shapefile")
 
-st_write(sf_landuse, dsn = here::here("output", "sf_moabit_landuse.shp"), 
-         layer = "sf_moabit_landuse.shp", driver = "ESRI Shapefile")
+st_write(sf_landuse, dsn = here::here("shp", "moabit_landuse.shp"), 
+         layer = "moabit_landuse.shp", driver = "ESRI Shapefile")
 
-st_write(sf_roads, dsn = here::here("output", "sf_moabit_roads.shp"), 
-         layer = "sf_moabit_roads.shp", driver = "ESRI Shapefile")
+st_write(sf_roads, dsn = here::here("shp", "moabit_roads.shp"), 
+         layer = "moabit_roads.shp", driver = "ESRI Shapefile")
 
-st_write(sf_rails, dsn = here::here("output", "sf_moabit_rails.shp"), 
-         layer = "sf_moabit_rails.shp", driver = "ESRI Shapefile")
+st_write(sf_rails, dsn = here::here("shp", "moabit_rails.shp"), 
+         layer = "moabit_rails.shp", driver = "ESRI Shapefile")
 
-st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"), 
-         layer = "sf_moabit_water.shp", driver = "ESRI Shapefile")
+st_write(sf_water, dsn = here::here("shp", "moabit_water.shp"), 
+         layer = "moabit_water.shp", driver = "ESRI Shapefile")
 ```
 
 ## Overview shapes
@@ -104,18 +104,18 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
 ```{r facet-shapes, fig.width = 12, fig.height = 14}
 theme_update(plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(t = 12, b = 3)),
              axis.text = element_text(size = 8, color = "grey50"),
-             panel.grid.major = element_line(size = 0.1, color = "grey90"))
+             panel.grid.major = element_line(size = 0.2, color = "grey90"))
 
-d <- ggplot(sf_moabit) + geom_sf() + ggtitle("sf_moabit_district.shp")
-b <- ggplot(sf_build) + geom_sf(aes(fill = AnzahlDerO), color = NA) + ggtitle("sf_moabit_build.shp")
-l <- ggplot(sf_landuse) + geom_sf(aes(fill = green)) + ggtitle("sf_moabit_landuse.shp")
-s <- ggplot(sf_roads) + geom_sf(aes(color = stroke)) + ggtitle("sf_moabit_roads.shp")
-r <- ggplot(sf_rails) + geom_sf(aes(color = fclass)) + ggtitle("sf_moabit_rails.shp")
-w <- ggplot(sf_water) + geom_sf() + ggtitle("sf_moabit_water.shp")
+d <- ggplot(sf_moabit) + geom_sf() + ggtitle("moabit_district.shp")
+b <- ggplot(sf_build) + geom_sf(aes(fill = AnzahlDerO), color = NA) + ggtitle("moabit_build.shp")
+l <- ggplot(sf_landuse) + geom_sf(aes(fill = green)) + ggtitle("moabit_landuse.shp")
+s <- ggplot(sf_roads) + geom_sf(aes(color = stroke)) + ggtitle("moabit_roads.shp")
+r <- ggplot(sf_rails) + geom_sf(aes(color = fclass)) + ggtitle("moabit_rails.shp")
+w <- ggplot(sf_water) + geom_sf() + ggtitle("moabit_water.shp")
 
 facet <- d + b + l + s + r + w + plot_layout(nrow = 3)
 
-ggsave(here::here("plots", "Shapes_Overview.pdf"), plot = facet,
+ggsave(here::here("img", "shapes_overview.pdf"), plot = facet,
        width = 12, height = 11.2, device = cairo_pdf)
 ```
 
@@ -184,7 +184,7 @@ ggsave(here::here("plots", "Shapes_Overview.pdf"), plot = facet,
           legend.box.spacing = unit(0.2, "cm"), 
           legend.key.size = unit(1.4, "lines")))
 
-ggsave(here::here("plots", "Moabit_By_Levels.pdf"), plot = moabit,
+ggsave(here::here("img", "build_levels.pdf"), plot = moabit,
        width = 12, height = 11.82, device = cairo_pdf)
 ```
 

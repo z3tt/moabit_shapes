@@ -3,7 +3,7 @@
 ### Shapefiles Included
 This repository contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin:
 
-![./plots/Shapes_Overview.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Shapes_Overview.png)
+![./img/shapes_overview.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/img/shapes_overview.png)
 
 * `sf_moabit_district.shp`: District border of Moabit
 
@@ -56,7 +56,7 @@ This repository contains the following shapefiles cropped for my home district [
 * Landuse categories, road network, railsways and water bodies: [OpenStreetMap contributors via Geofabrik GmbH](https://download.geofabrik.de/europe/germany/berlin.html); last update: 2019-12-04
 
 ### Example Plot
-![./plots/Moabit_By_Levels.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Moabit_By_Levels.png)
+![./img/build_levels.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/img/build_levels.png)
 
 ***
 
