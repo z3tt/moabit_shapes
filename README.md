@@ -1,12 +1,12 @@
 # 🗺  Shapefiles for Moabit (Berlin 21)
 
-![./plots/Moabit_By_Levels.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Moabit_By_Levels.png)
-
 ### Shapefiles Included
 This repository contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin:
 
+![./plots/Shapes_Overview.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Shapes_Overview.png)
+
 * District border: `sf_moabit_district.shp`  
- 
+
 * 4056 buildings: `sf_moabit_build.shp`
   - `OBJECTID`: identification number
   - `Gebaeudefu`: building function number
@@ -14,7 +14,7 @@ This repository contains the following shapefiles cropped for my home district [
   - `AnzahlDerO`: number of above ground levels
   - `AnzahlDerU`: number of below ground levels
   - `Name`: buidling name (in German)  
-   
+
 * Landuse classification: `sf_moabit_landuse.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
@@ -22,8 +22,8 @@ This repository contains the following shapefiles cropped for my home district [
   - `name`: name of the feature
   - `green`: green space classification, boolean variable
     * `TRUE` if fclass one of "park", "recreation_ground", "cemetery", "scrub", "forest", "heath", "allotments" or "grass"
-    * `FALSE` otherwise 
-      
+    * `FALSE` otherwise
+
 * Road network: `sf_moabit_roads.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
@@ -36,13 +36,13 @@ This repository contains the following shapefiles cropped for my home district [
   - `tunnel`: boolean variable, `T` if feature is a tunnel, `F` otherwise
   - `stroke`: `0.1` in case of "path" and "footway", `0.2` otherwise
   - `layer`: OSM layer  
-    
+
 * Railways: `sf_moabit_rails.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
   - `fclass`: OSM feature class
   - `name`: name of the feature  
-    
+
 * Water bodies: `sf_moabit_water.shp`
   - `osm_id`: OSM identification number
   - `code`: 4 digit code defining OSM feature class
@@ -54,3 +54,13 @@ This repository contains the following shapefiles cropped for my home district [
 * Buildings: [Geoportal Berlin via ESRI DE Open Data](https://opendata-esri-de.opendata.arcgis.com/datasets/ecf431fd8c394ee1b2fd7d54563e7b81_0); uploaded: 2019-01-25
   - Note: `Gebäude__Berlin.shp` and `Gebäude__Berlin.dbf` are not included here due to file size limits
 * Landuse categories, road network, railsways and water bodies: [OpenStreetMap contributors via Geofabrik GmbH](https://download.geofabrik.de/europe/germany/berlin.html); last update: 2019-12-04
+
+### Example Plot
+![./plots/Moabit_By_Levels.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/plots/Moabit_By_Levels.png)
+
+***
+
+#### Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0)
+<div style="width:300px; height:200px">
+<img src=https://camo.githubusercontent.com/00f7814990f36f84c5ea74cba887385d8a2f36be/68747470733a2f2f646f63732e636c6f7564706f7373652e636f6d2f696d616765732f63632d62792d6e632d73612e706e67 alt="" height="42">
+</div>
