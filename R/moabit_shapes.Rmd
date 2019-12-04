@@ -105,12 +105,12 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
   mutate(levels = if_else(AnzahlDerO > 7, "7", as.character(AnzahlDerO))) %>% 
   ggplot() +
     geom_sf(data = sf_water,
-             color = "#182a33",
-             fill = "#182a33") +
+             color = "#284756",
+             fill = "#284756") +
     geom_sf(data = sf_landuse %>% 
-            filter(green == T),
+            filter(green == "T"),
             color = NA,
-            fill = "#10211b") +
+            fill = "#183222") +
     geom_sf(data = sf_rails,
             color = "grey15",
             size = 0.25) +
@@ -121,7 +121,8 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
             color = "black",
             lwd = 0.005, 
             show.legend = "point") + 
-    scale_fill_viridis_d(name = "Above Ground Building Levels",
+    scale_fill_viridis_d(name = "Above Ground Building Levels", 
+                         option = "plasma",
                          labels = c(as.character(1:6), "\u22657")) +
     scale_size_manual(values = c(0.125, 0.3), guide = F) +
     scale_x_continuous(expand = c(0.001, 0.001)) +
@@ -138,7 +139,8 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
           plot.margin = margin(50, 75, 50, 75),
           axis.text = element_text(color = "grey30", 
                                    size = 9),
-          axis.text.y = element_text(angle = 90),
+          axis.text.y = element_text(face = "bold",
+                                     angle = 90),
           panel.grid.major = element_blank(),
           plot.title = element_text(color = "grey60",
                                     size = 50,
@@ -147,6 +149,7 @@ st_write(sf_water, dsn = here::here("output", "sf_moabit_water.shp"),
                                     margin = margin(t = 18, b = 18)),
           plot.caption = element_text(color = "grey30",
                                       size = 12,
+                                      face = "bold",
                                       hjust = 0.5,
                                       margin = margin(t = 18, b = 12)),
           legend.position = "bottom",
