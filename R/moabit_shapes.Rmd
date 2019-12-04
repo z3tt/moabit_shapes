@@ -27,12 +27,20 @@ theme_set(theme_minimal())
 ## Data
 
 ```{r data}
-## Prognoseräume Berlin -> shape Moabit
+## Prognoseräume Berlin -> shape LOR Moabit (but contains also non-Moabit areas in the south...)
 ## source: https://data.technologiestiftung-berlin.de/dataset/lor_prognoseraeume/en
 sf_moabit <- 
   sf::read_sf(dsn = here::here("data", "lor_prognoseraeume", "lor_prognoseraeume.shp"), 
               layer = "lor_prognoseraeume") %>% 
   filter(spatial_al == "Moabit")
+
+## Ortsteile Berlin -> shape quarter Moabit 
+## source: https://daten.berlin.de/datensaetze/rbs-ortsteile-dezember-2014
+sf_moabit <- 
+  sf::read_sf(dsn = here::here("data", "RBS_OD_ORT_1412", "RBS_OD_ORT_1412.shp"), 
+              layer = "RBS_OD_ORT_1412") %>% 
+  st_transform(crs = "+proj=longlat +datum=WGS84 +no_defs") %>% 
+  filter(ORT == "0102")
 
 ## Berlin Buildings
 ## source: https://opendata-esri-de.opendata.arcgis.com/datasets/ecf431fd8c394ee1b2fd7d54563e7b81_0
@@ -101,10 +109,12 @@ st_write(sf_water, dsn = here::here("shp", "moabit_water.shp"),
 
 ## Overview shapes
 
-```{r facet-shapes, fig.width = 12, fig.height = 14}
-theme_update(plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(t = 12, b = 3)),
-             axis.text = element_text(size = 8, color = "grey50"),
-             panel.grid.major = element_line(size = 0.2, color = "grey90"))
+```{r facet-shapes, fig.width = 12, fig.height = 10.7}
+theme_update(
+  plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(t = 12, b = 3)),
+  axis.text = element_text(size = 8, color = "grey50"),
+  panel.grid.major = element_line(size = 0.3, color = "grey90")
+)
 
 d <- ggplot(sf_moabit) + geom_sf() + ggtitle("moabit_district.shp")
 b <- ggplot(sf_build) + geom_sf(aes(fill = AnzahlDerO), color = NA) + ggtitle("moabit_build.shp")
@@ -113,15 +123,18 @@ s <- ggplot(sf_roads) + geom_sf(aes(color = stroke)) + ggtitle("moabit_roads.shp
 r <- ggplot(sf_rails) + geom_sf(aes(color = fclass)) + ggtitle("moabit_rails.shp")
 w <- ggplot(sf_water) + geom_sf() + ggtitle("moabit_water.shp")
 
-facet <- d + b + l + s + r + w + plot_layout(nrow = 3)
+facet <- (d + b + l + s + r + w) * 
+  scale_x_continuous(limits = c(13.312, 13.3738)) * 
+  scale_y_continuous(limits = c(52.517, 52.542)) + 
+  plot_layout(nrow = 3)
 
 ggsave(here::here("img", "shapes_overview.pdf"), plot = facet,
-       width = 12, height = 11.2, device = cairo_pdf)
+       width = 12, height = 10.7, device = cairo_pdf)
 ```
 
 ## Example Map
 
-```{r map, fig.width = 12, fig.height = 11.82}
+```{r map, fig.width = 12, fig.height = 10.88}
 (moabit <- 
   sf_build %>% 
   mutate(levels = if_else(AnzahlDerO > 7, "7", as.character(AnzahlDerO))) %>% 
@@ -155,17 +168,14 @@ ggsave(here::here("img", "shapes_overview.pdf"), plot = facet,
                                override.aes = list(size = 8, shape = 21))) +
     labs(title = "Moabit – Berlin 21",
          caption = "Visualization by Cédric Scherer  •  Data by Geoportal Berlin & OpenStreetMap") +
-    theme(plot.background = element_rect(color = "grey30", 
+    theme(plot.background = element_rect(color = "grey40", 
                                          fill = "black",
-                                         size = 30),
-          plot.margin = margin(50, 75, 50, 75),
-          axis.text = element_text(color = "grey30", 
-                                   size = 9),
-          axis.text.y = element_text(face = "bold",
-                                     angle = 90),
+                                         size = 20),
+          plot.margin = margin(25, 35, 25, 35),
+          axis.text = element_blank(),
           panel.grid.major = element_blank(),
           plot.title = element_text(color = "grey60",
-                                    size = 50,
+                                    size = 42,
                                     face = "bold",
                                     hjust = 0.5,
                                     margin = margin(t = 18, b = 18)),
@@ -185,7 +195,7 @@ ggsave(here::here("img", "shapes_overview.pdf"), plot = facet,
           legend.key.size = unit(1.4, "lines")))
 
 ggsave(here::here("img", "build_levels.pdf"), plot = moabit,
-       width = 12, height = 11.82, device = cairo_pdf)
+       width = 12, height = 10.88, device = cairo_pdf)
 ```
 
 ***
