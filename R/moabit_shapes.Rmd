@@ -85,50 +85,68 @@ sf_water <-
   dplyr::select(osm_id, code, fclass, name)
 ```
 
-## Write Shapefiles
+## Write GeoPackage
 
-```{r write-shapefiles}
-st_write(sf_moabit, dsn = here::here("shp", "moabit_district.shp"), 
-         layer = "moabit_district.shp", driver = "ESRI Shapefile")
+```{r write-geopackage}
+st_write(sf_moabit, dsn = here::here("gpkg", "moabit_district.gpkg"), driver = "GPKG")
 
-st_write(sf_build, dsn = here::here("shp", "moabit_build.shp"), 
-         layer = "moabit_build.shp", driver = "ESRI Shapefile")
+st_write(sf_build, dsn = here::here("gpkg", "moabit_build.gpkg"), driver = "GPKG")
 
-st_write(sf_landuse, dsn = here::here("shp", "moabit_landuse.shp"), 
-         layer = "moabit_landuse.shp", driver = "ESRI Shapefile")
+st_write(sf_landuse, dsn = here::here("gpkg", "moabit_landuse.gpkg"), driver = "GPKG")
 
-st_write(sf_roads, dsn = here::here("shp", "moabit_roads.shp"), 
-         layer = "moabit_roads.shp", driver = "ESRI Shapefile")
+st_write(sf_roads, dsn = here::here("gpkg", "moabit_roads.gpkg"), driver = "GPKG")
 
-st_write(sf_rails, dsn = here::here("shp", "moabit_rails.shp"), 
-         layer = "moabit_rails.shp", driver = "ESRI Shapefile")
+st_write(sf_rails, dsn = here::here("gpkg", "moabit_rails.gpkg"), driver = "GPKG")
 
-st_write(sf_water, dsn = here::here("shp", "moabit_water.shp"), 
-         layer = "moabit_water.shp", driver = "ESRI Shapefile")
+st_write(sf_water, dsn = here::here("gpkg", "moabit_water.gpkg"), driver = "GPKG")
 ```
 
-## Overview shapes
 
-```{r facet-shapes, fig.width = 12, fig.height = 10.7}
+## Write Shapefile
+
+```{r write-shapefile}
+st_write(sf_moabit, dsn = here::here("shp", "moabit_district.shp"), 
+         layer = "moabit_district", driver = "ESRI Shapefile")
+
+st_write(sf_build, dsn = here::here("shp", "moabit_build.shp"), 
+         layer = "moabit_build", driver = "ESRI Shapefile")
+
+st_write(sf_landuse, dsn = here::here("shp", "moabit_landuse.shp"), 
+         layer = "moabit_landuse", driver = "ESRI Shapefile")
+
+st_write(sf_roads, dsn = here::here("shp", "moabit_roads.shp"), 
+         layer = "moabit_roads", driver = "ESRI Shapefile")
+
+st_write(sf_rails, dsn = here::here("shp", "moabit_rails.shp"), 
+         layer = "moabit_rails", driver = "ESRI Shapefile")
+
+st_write(sf_water, dsn = here::here("shp", "moabit_water.shp"), 
+         layer = "moabit_water", driver = "ESRI Shapefile")
+```
+
+
+## Overview layers
+
+```{r facet-layer, fig.width = 12, fig.height = 10.7}
 theme_update(
   plot.title = element_text(face = "bold", hjust = 0.5, margin = margin(t = 12, b = 3)),
   axis.text = element_text(size = 8, color = "grey50"),
   panel.grid.major = element_line(size = 0.3, color = "grey90")
 )
 
-d <- ggplot(sf_moabit) + geom_sf() + ggtitle("moabit_district.shp")
-b <- ggplot(sf_build) + geom_sf(aes(fill = AnzahlDerO), color = NA) + ggtitle("moabit_build.shp")
-l <- ggplot(sf_landuse) + geom_sf(aes(fill = green)) + ggtitle("moabit_landuse.shp")
-s <- ggplot(sf_roads) + geom_sf(aes(color = stroke)) + ggtitle("moabit_roads.shp")
-r <- ggplot(sf_rails) + geom_sf(aes(color = fclass)) + ggtitle("moabit_rails.shp")
-w <- ggplot(sf_water) + geom_sf() + ggtitle("moabit_water.shp")
+d <- ggplot(sf_moabit) + geom_sf() + ggtitle("moabit_district.*")
+b <- ggplot(sf_build) + geom_sf(aes(fill = AnzahlDerO), color = NA) + ggtitle("moabit_build.*")
+l <- ggplot(sf_landuse) + geom_sf(aes(fill = green)) + ggtitle("moabit_landuse.*")
+s <- ggplot(sf_roads) + geom_sf(aes(color = stroke)) + ggtitle("moabit_roads.*")
+r <- ggplot(sf_rails) + geom_sf(aes(color = fclass)) + ggtitle("moabit_rails.*")
+w <- ggplot(sf_water) + geom_sf() + ggtitle("moabit_water.*")
 
 facet <- (d + b + l + s + r + w) * 
   scale_x_continuous(limits = c(13.312, 13.3738)) * 
   scale_y_continuous(limits = c(52.517, 52.542)) + 
   plot_layout(nrow = 3)
 
-ggsave(here::here("img", "shapes_overview.pdf"), plot = facet,
+ggsave(here::here("img", "layer_overview.pdf"), plot = facet,
        width = 12, height = 10.7, device = cairo_pdf)
 ```
 
@@ -205,4 +223,3 @@ ggsave(here::here("img", "build_levels.pdf"), plot = moabit,
 ```{r session-info}
 sessionInfo()
 ```
-

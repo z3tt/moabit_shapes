@@ -1,9 +1,9 @@
-# 🗺  Shapefiles for Moabit (Berlin 21)
+# 🗺  GIS Layers for Moabit aka Berlin 21
 
-### Shapefiles Included
-This repository contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin:
+### Layers Included
+This repository contains the following shapefiles cropped for my home district [Moabit](https://en.wikipedia.org/wiki/Moabit) in Berlin that is also known as "Berlin 21":
 
-![./img/shapes_overview.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/img/shapes_overview.png)
+![./img/layer_overview.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/img/layer_overview.png)
 
 * `sf_moabit_district.shp`: District border of Moabit
 
