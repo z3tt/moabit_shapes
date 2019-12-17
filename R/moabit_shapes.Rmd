@@ -185,7 +185,7 @@ ggsave(here::here("img", "layer_overview.pdf"), plot = facet,
                                label.position = "right",
                                override.aes = list(size = 8, shape = 21))) +
     labs(title = "Moabit – Berlin 21",
-         caption = "Visualization by Cédric Scherer  •  Data by Geoportal Berlin & OpenStreetMap") +
+         caption = "Visualization by Cédric Scherer  •  Data by Geoportal Berlin & OpenStreetMap contributors") +
     theme(plot.background = element_rect(color = "grey40", 
                                          fill = "black",
                                          size = 20),
