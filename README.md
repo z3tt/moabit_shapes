@@ -50,10 +50,19 @@ This repository contains the following shapefiles cropped for my home district [
   - `name`: name of the feature
 
 ### Data Sources
+
+Data sources that have been used:
+
 * District borders ("Ortsteile"): [Berlin Open Data](https://daten.berlin.de/datensaetze/rbs-ortsteile-dezember-2014); uploaded: 2014-12-31
 * Buildings: [Geoportal Berlin via ESRI DE Open Data](https://opendata-esri-de.opendata.arcgis.com/datasets/ecf431fd8c394ee1b2fd7d54563e7b81_0); uploaded: 2019-01-25
   - Note: `Gebäude__Berlin.shp` and `Gebäude__Berlin.dbf` are not included here due to file size limits
 * Landuse categories, road network, railsways and water bodies: [OpenStreetMap contributors via Geofabrik GmbH](https://download.geofabrik.de/europe/germany/berlin.html); last update: 2019-12-04
+
+Other useful reosurces:
+
+* A collection of (all?!) [Berlin's spatial units](https://lab.technologiestiftung-berlin.de/projects/spatial-units/en/) including districts, district areas, LORs, traffic cells, corridors, and ZIP code areas
+* [BerlinOpenData](https://daten.berlin.de/) for a range of (potentially) interesting data about Berlin
+
 
 ### Example Plot
 ![./img/build_levels.png](https://raw.githubusercontent.com/Z3tt/moabit_shapes/master/img/build_levels.png)
